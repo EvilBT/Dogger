@@ -2,13 +2,24 @@ package cn.sherlockzp.dogger
 
 import android.os.Bundle
 import android.support.design.widget.Snackbar
+import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import cn.sherlockzp.dogger.ui.girl.GirlFragment
+import dagger.android.AndroidInjector
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.support.HasSupportFragmentInjector
 
 import kotlinx.android.synthetic.main.activity_main.*
+import javax.inject.Inject
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity() , HasSupportFragmentInjector{
+
+    @Inject lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
+
+    /** Returns an [AndroidInjector] of [Fragment]s.  */
+    override fun supportFragmentInjector() = dispatchingAndroidInjector
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,6 +29,13 @@ class MainActivity : AppCompatActivity() {
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
+        }
+
+        if (savedInstanceState == null) {
+            val fragment = GirlFragment()
+            supportFragmentManager.beginTransaction()
+                    .add(R.id.container, fragment)
+                    .commit()
         }
     }
 
