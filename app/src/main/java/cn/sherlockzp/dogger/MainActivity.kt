@@ -1,11 +1,15 @@
 package cn.sherlockzp.dogger
 
+import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
+import cn.sherlockzp.dogger.repository.GankRepository
 import cn.sherlockzp.dogger.ui.girl.GirlFragment
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
@@ -18,6 +22,7 @@ class MainActivity : AppCompatActivity() , HasSupportFragmentInjector{
 
     @Inject lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
 
+    @Inject lateinit var gankRepository: GankRepository
     /** Returns an [AndroidInjector] of [Fragment]s.  */
     override fun supportFragmentInjector() = dispatchingAndroidInjector
 
@@ -29,6 +34,19 @@ class MainActivity : AppCompatActivity() , HasSupportFragmentInjector{
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
+            gankRepository.loadGank("福利",10,1)
+                    .observe(this, Observer {
+                        it?.let {
+                            Log.d("Sherlock","${it.msg},${it.code}")
+                            it.body?.let {
+                                Log.d("Sherlock","${it.error},${it.results}")
+                            }?:let {
+                                Log.d("Sherlock","空的啊")
+                            }
+                        }?:let {
+                            Toast.makeText(this,"为空",Toast.LENGTH_LONG).show()
+                        }
+                    })
         }
 
         if (savedInstanceState == null) {
