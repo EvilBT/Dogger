@@ -54,6 +54,17 @@ ext {
     // retrofit
     retrofit_version = '2.3.0'
 
+    // Glide
+    glide_version = '4.6.1'
+
+    // SherlockAdapter
+    sherlock_adapter_version = '1.1.1'
+    // sherlockadapter-databinding
+    sherlockadapter_databinding_version = '1.1.2'
+
+    // hdimageview
+    hdimageview_version = '2.0.0'
+
     // gson
     gson_version = '2.8.2'
 

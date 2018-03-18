@@ -1,4 +1,4 @@
-package cn.sherlockzp.dogger.api
+package cn.sherlockzp.livedata.retrofit
 
 import retrofit2.Response
 import java.io.IOException
@@ -38,4 +38,11 @@ class ApiResponse<T> {
     }
 
     fun isSuccessful() = code in 200 until 300
+}
+
+fun ApiResponse<*>?.isSuccessfulAndNotNull(): Boolean {
+    if (this == null) {
+        return false
+    }
+    return this.isSuccessful()
 }

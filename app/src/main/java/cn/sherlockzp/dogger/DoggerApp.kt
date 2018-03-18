@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
 import android.support.v4.app.FragmentManager
+import android.widget.Toast
 import cn.sherlockzp.dogger.di.DaggerAppComponent
 import cn.sherlockzp.dogger.di.Injectable
 import dagger.android.AndroidInjection
@@ -36,7 +37,9 @@ class DoggerApp : Application(), HasActivityInjector{
     }
 }
 
-fun init(doggerApp: DoggerApp) {
+private fun init(doggerApp: DoggerApp) {
+
+    toast = Toast.makeText(doggerApp,"",Toast.LENGTH_SHORT)
 
     DaggerAppComponent.builder().application(doggerApp)
             .build().inject(doggerApp)
@@ -66,7 +69,7 @@ fun init(doggerApp: DoggerApp) {
     })
 }
 
-fun handleActivity(activity: Activity?) {
+private fun handleActivity(activity: Activity?) {
     if (activity is HasSupportFragmentInjector) {
         AndroidInjection.inject(activity)
     }
@@ -80,4 +83,11 @@ fun handleActivity(activity: Activity?) {
             }
         }, true)
     }
+}
+
+private lateinit var toast: Toast
+
+fun toast(msg: String) {
+    toast.setText(msg)
+    toast.show()
 }

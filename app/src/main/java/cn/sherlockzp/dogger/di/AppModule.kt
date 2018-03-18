@@ -1,8 +1,12 @@
 package cn.sherlockzp.dogger.di
 
+import android.app.Application
+import android.arch.persistence.room.Room
 import cn.sherlockzp.dogger.api.GangService
-import cn.sherlockzp.dogger.util.LiveDataCallAdapter
-import cn.sherlockzp.dogger.util.LiveDataCallAdapterFactory
+import cn.sherlockzp.dogger.db.DoggerDb
+import cn.sherlockzp.livedata.retrofit.calladapter.LiveDataCallAdapterFactory
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
@@ -25,10 +29,23 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideGankService() = Retrofit.Builder()
+    fun provideGson() = GsonBuilder()
+            .setDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSS'Z'")
+            .create()
+
+
+    @Singleton
+    @Provides
+    fun provideGankService(gson: Gson) = Retrofit.Builder()
             .baseUrl("http://gank.io/")
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(gson))
             .addCallAdapterFactory(LiveDataCallAdapterFactory.create())
             .build()
             .create(GangService::class.java)
+
+    @Singleton
+    @Provides
+    fun provideDb(app: Application) = Room.databaseBuilder(
+            app, DoggerDb::class.java, "dogger.db"
+    ).build()
 }

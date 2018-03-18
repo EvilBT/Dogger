@@ -2,6 +2,7 @@ package cn.sherlockzp.dogger.api
 
 import android.arch.lifecycle.LiveData
 import cn.sherlockzp.dogger.vo.Gank
+import cn.sherlockzp.livedata.retrofit.ApiResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 

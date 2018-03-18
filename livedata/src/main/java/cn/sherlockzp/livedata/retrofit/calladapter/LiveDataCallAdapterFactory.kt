@@ -1,7 +1,7 @@
-package cn.sherlockzp.dogger.util
+package cn.sherlockzp.livedata.retrofit.calladapter
 
 import android.arch.lifecycle.LiveData
-import cn.sherlockzp.dogger.api.ApiResponse
+import cn.sherlockzp.livedata.retrofit.ApiResponse
 import retrofit2.CallAdapter
 import retrofit2.Retrofit
 import java.lang.reflect.ParameterizedType

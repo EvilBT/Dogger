@@ -8,13 +8,12 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import cn.sherlockzp.dogger.repository.GankRepository
 import cn.sherlockzp.dogger.ui.girl.GirlFragment
+import cn.sherlockzp.vo.Status
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
-
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
@@ -34,17 +33,14 @@ class MainActivity : AppCompatActivity() , HasSupportFragmentInjector{
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
-            gankRepository.loadGank("福利",10,1)
+            gankRepository.load("福利",10,1)
                     .observe(this, Observer {
                         it?.let {
-                            Log.d("Sherlock","${it.msg},${it.code}")
-                            it.body?.let {
-                                Log.d("Sherlock","${it.error},${it.results}")
-                            }?:let {
-                                Log.d("Sherlock","空的啊")
+                            when(it.status){
+                                Status.LOADING -> Log.d("Sherlock","加载中${it.data}")
+                                Status.ERROR -> Log.d("Sherlock", "加载异常${it.message}")
+                                Status.SUCCESS -> Log.d("Sherlock","加载成功${it.data}")
                             }
-                        }?:let {
-                            Toast.makeText(this,"为空",Toast.LENGTH_LONG).show()
                         }
                     })
         }
