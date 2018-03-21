@@ -3,6 +3,7 @@ package cn.sherlockzp.dogger.vo
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.Ignore
 import android.arch.persistence.room.PrimaryKey
+import cn.sherlockzp.dogger.BR
 import cn.sherlockzp.dogger.R
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -37,11 +38,12 @@ class Girl(result: Result) : DefaultMultiItem<Result>(R.layout.app_girl_item, re
 	 * @param holder Holder Helper
 	 */
 	override fun convert(holder: BaseViewHolder) {
-		holder.setImage(R.id.iv_girl) {
+		/*holder.setImage(R.id.iv_girl) {
 			Glide.with(it.context).load(data.url)
 					.apply(RequestOptions.errorOf(R.mipmap.ic_launcher))
 					.apply(RequestOptions.centerCropTransform())
 					.into(it)
-		}
+		}*/
+		holder.binding.setVariable(BR.girl, this)
 	}
 }
